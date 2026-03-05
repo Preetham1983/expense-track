@@ -4,6 +4,12 @@ Configures CORS, rate limiting, database lifecycle, observer
 pattern wiring, and route registration.
 """
 
+import os
+import sys
+
+# Ensure Vercel can find modules in the backend folder
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
