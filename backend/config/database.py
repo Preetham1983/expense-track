@@ -36,13 +36,15 @@ class Database:
     def get_client(cls) -> AsyncIOMotorClient:
         """Create or return the MongoDB client singleton."""
         if cls._client is None:
-            import certifi
+            # We use tlsAllowInvalidCertificates=True because Vercel Serverless
+            # Functions often fail standard SSL handshakes with MongoDB Atlas.
             cls._client = AsyncIOMotorClient(
                 settings.mongodb_uri,
                 tls=True,
-                tlsCAFile=certifi.where()
+                tlsAllowInvalidCertificates=True
             )
         return cls._client
+
 
     @classmethod
     def get_database(cls) -> AsyncIOMotorDatabase:
