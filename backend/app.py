@@ -82,6 +82,8 @@ app.include_router(api_router)
 
 
 @app.get("/", tags=["Health"])
+@app.get("/api", tags=["Health"])
+@app.get("/api/", tags=["Health"])
 async def health_check() -> dict:
     """Health check endpoint."""
     return {"status": "healthy", "message": "Expense Tracker API is running."}
