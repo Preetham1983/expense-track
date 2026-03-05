@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useNotifications } from '../hooks/useNotifications';
 import NotificationPanel from './NotificationPanel';
-import { FiHome, FiDollarSign, FiCreditCard, FiBell, FiLogOut, FiMenu, FiX } from 'react-icons/fi';
+import { FiHome, FiDollarSign, FiCreditCard, FiBell, FiLogOut, FiMenu, FiX, FiHelpCircle } from 'react-icons/fi';
 
 export default function Navbar() {
     const { user, logout } = useAuth();
@@ -22,7 +22,10 @@ export default function Navbar() {
         { path: '/', label: 'Dashboard', icon: <FiHome /> },
         { path: '/expenses', label: 'Expenses', icon: <FiDollarSign /> },
         { path: '/emis', label: 'EMIs', icon: <FiCreditCard /> },
+        { path: '/how-it-works', label: 'How it Works', icon: <FiHelpCircle /> },
     ];
+
+    if (!user) return null;
 
     return (
         <nav className="navbar">
@@ -32,9 +35,20 @@ export default function Navbar() {
                     <span className="brand-text">ExpenseTracker</span>
                 </Link>
 
-                <button className="mobile-toggle" onClick={() => setMobileOpen(!mobileOpen)}>
-                    {mobileOpen ? <FiX /> : <FiMenu />}
-                </button>
+                <div className="navbar-actions mobile-only-actions">
+                    <div className="notification-wrapper">
+                        <button
+                            className="notification-btn"
+                            onClick={() => setShowNotifications(!showNotifications)}
+                        >
+                            <FiBell />
+                            {unreadCount > 0 && <span className="badge">{unreadCount}</span>}
+                        </button>
+                    </div>
+                    <button className="mobile-toggle" onClick={() => setMobileOpen(!mobileOpen)}>
+                        {mobileOpen ? <FiX /> : <FiMenu />}
+                    </button>
+                </div>
 
                 <div className={`navbar-links ${mobileOpen ? 'open' : ''}`}>
                     {navLinks.map((link) => (
@@ -48,9 +62,14 @@ export default function Navbar() {
                             <span>{link.label}</span>
                         </Link>
                     ))}
+
+                    <button className="nav-link logout-btn-mobile" onClick={handleLogout}>
+                        <FiLogOut />
+                        <span>Logout</span>
+                    </button>
                 </div>
 
-                <div className="navbar-actions">
+                <div className="navbar-actions desktop-only-actions">
                     <div className="notification-wrapper">
                         <button
                             className="notification-btn"
@@ -78,6 +97,17 @@ export default function Navbar() {
                         <FiLogOut />
                     </button>
                 </div>
+
+                {showNotifications && mobileOpen && (
+                    <div className="mobile-notification-overlay">
+                        <NotificationPanel
+                            notifications={notifications}
+                            onMarkRead={markAsRead}
+                            onMarkAllRead={markAllRead}
+                            onClose={() => setShowNotifications(false)}
+                        />
+                    </div>
+                )}
             </div>
         </nav>
     );

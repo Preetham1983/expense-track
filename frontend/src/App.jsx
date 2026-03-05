@@ -3,6 +3,8 @@ import { Toaster } from 'react-hot-toast';
 import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import Navbar from './components/Navbar';
+import './index.css';
+import './mobile.css'; // New mobile-specific styles
 
 // Pages
 import Login from './pages/Login';
@@ -10,6 +12,7 @@ import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import Expenses from './pages/Expenses';
 import EMIs from './pages/EMIs';
+import HowItWorks from './pages/HowItWorks';
 
 // Layout wrapper for protected routes
 const MainLayout = ({ children }) => (
@@ -47,6 +50,12 @@ function App() {
                     <Route path="/emis" element={
                         <ProtectedRoute>
                             <MainLayout><EMIs /></MainLayout>
+                        </ProtectedRoute>
+                    } />
+
+                    <Route path="/how-it-works" element={
+                        <ProtectedRoute>
+                            <MainLayout><HowItWorks /></MainLayout>
                         </ProtectedRoute>
                     } />
                 </Routes>

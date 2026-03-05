@@ -1,0 +1,51 @@
+/* Mobile-specific and utility overrides */
+
+.desktop-only-actions {
+    display: flex !important;
+}
+
+.mobile-only-actions {
+    display: none !important;
+}
+
+.logout-btn-mobile {
+    margin-top: auto;
+    color: var(--danger) !important;
+    border-top: 1px solid var(--border-color);
+    padding: 1.5rem !important;
+    justify-content: flex-start !important;
+}
+
+@media (max-width: 768px) {
+    .desktop-only-actions {
+        display: none !important;
+    }
+
+    .mobile-only-actions {
+        display: flex !important;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .mobile-notification-overlay {
+        position: fixed;
+        top: 73px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: var(--bg-color);
+        z-index: 1001;
+        overflow-y: auto;
+    }
+
+    /* Additional responsiveness tweaks */
+    .modal-content {
+        max-width: 100%;
+        height: 100%;
+        border-radius: 0;
+    }
+
+    .expense-form {
+        padding: 1.5rem;
+    }
+}
