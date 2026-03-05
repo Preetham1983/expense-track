@@ -15,22 +15,33 @@ class Database:
     _client: AsyncIOMotorClient | None = None
     _database: AsyncIOMotorDatabase | None = None
 
+    # @classmethod
+    # def get_client(cls) -> AsyncIOMotorClient:
+    #     """Create or return the MongoDB client singleton.
+
+    #     Uses certifi to ensure SSL certificates are handled correctly
+    #     on Windows/macOS.
+    #     """
+    #     if cls._client is None:
+    #         try:
+    #             import certifi
+    #             cls._client = AsyncIOMotorClient(
+    #                 settings.mongodb_uri,
+    #                 tlsCAFile=certifi.where()
+    #             )
+    #         except ImportError:
+    #             cls._client = AsyncIOMotorClient(settings.mongodb_uri)
+    #     return cls._client
     @classmethod
     def get_client(cls) -> AsyncIOMotorClient:
-        """Create or return the MongoDB client singleton.
-
-        Uses certifi to ensure SSL certificates are handled correctly
-        on Windows/macOS.
-        """
+        """Create or return the MongoDB client singleton."""
         if cls._client is None:
-            try:
-                import certifi
-                cls._client = AsyncIOMotorClient(
-                    settings.mongodb_uri,
-                    tlsCAFile=certifi.where()
-                )
-            except ImportError:
-                cls._client = AsyncIOMotorClient(settings.mongodb_uri)
+            import certifi
+            cls._client = AsyncIOMotorClient(
+                settings.mongodb_uri,
+                tls=True,
+                tlsCAFile=certifi.where()
+            )
         return cls._client
 
     @classmethod
