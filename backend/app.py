@@ -8,7 +8,7 @@ import os
 import sys
 
 # Ensure Vercel can find modules in the backend folder
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from contextlib import asynccontextmanager
 
