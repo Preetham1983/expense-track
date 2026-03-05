@@ -47,3 +47,17 @@ async def update_budget(
     return await AuthService.update_budget(
         current_user["user_id"], data.monthly_budget,
     )
+from repositories.user_repository import UserRepository
+
+@router.post("/subscribe")
+async def subscribe_push(
+    subscription: dict,
+    current_user: dict = Depends(get_current_user),
+) -> dict:
+    """Subscribe the current user to push notifications."""
+    await UserRepository.add_push_subscription(current_user["user_id"], subscription)
+    return {"message": "Subscribed successfully."}
+@router.get("/vapid-public-key")
+async def get_vapid_public_key() -> dict:
+    """Get the VAPID public key for push subscriptions."""
+    return {"publicKey": os.getenv("VAPID_PUBLIC_KEY")}

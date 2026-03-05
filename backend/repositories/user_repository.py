@@ -22,3 +22,16 @@ class UserRepository(BaseRepository):
             User document or None if not found.
         """
         return await cls.find_one({"email": email})
+    
+    @classmethod
+    async def add_push_subscription(cls, user_id: str, subscription: dict) -> bool:
+        """Add a push subscription to the user's profile.
+        
+        Avoid duplicates using $addToSet.
+        """
+        collection = cls._get_collection()
+        await collection.update_one(
+            {"_id": cls._to_object_id(user_id)},
+            {"$addToSet": {"push_subscriptions": subscription}}
+        )
+        return True

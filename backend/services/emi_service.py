@@ -178,14 +178,27 @@ class EMIService:
 
         for emi in upcoming:
             if emi["due_date"] >= today:
-                await self._subject.notify(
-                    "emi_due_soon",
-                    {
-                        "user_id": user_id,
-                        "emi_name": emi["emi_name"],
-                        "amount": emi["amount"],
-                        "due_date": emi["due_date"],
-                    },
-                )
+                # Check if we already notified for this EMI this month
+                # Use a specific title format or metadata if possible. 
+                # For now, searching by user_id, type and a part of the message/title
+                exists = await NotificationRepository.exists_by_metadata({
+                    "user_id": user_id,
+                    "type": "emi_reminder",
+                    "title": f"EMI Due: {emi['emi_name']}",
+                    "created_at": {
+                        "$gte": datetime.utcnow().replace(day=1, hour=0, minute=0, second=0, microsecond=0)
+                    }
+                })
+                
+                if not exists:
+                    await self._subject.notify(
+                        "emi_due_soon",
+                        {
+                            "user_id": user_id,
+                            "emi_name": emi["emi_name"],
+                            "amount": emi["amount"],
+                            "due_date": emi["due_date"],
+                        },
+                    )
 
         return upcoming

@@ -479,6 +479,42 @@ select option {
 }
 
 /* --- Notification Panel --- */
+.notification-toggle-container {
+    padding: 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.btn-notification-toggle {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid var(--primary-color);
+    background: transparent;
+    color: var(--primary-color);
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+}
+
+.btn-notification-toggle:hover:not(:disabled) {
+    background: rgba(99, 102, 241, 0.1);
+}
+
+.btn-notification-toggle.active {
+    border-color: #10b981;
+    color: #10b981;
+    background: rgba(16, 185, 129, 0.1);
+    cursor: default;
+}
+
+.btn-notification-toggle:disabled {
+    opacity: 0.7;
+}
+
 .notification-panel {
     position: absolute;
     top: 120%;
@@ -706,6 +742,30 @@ select option {
 
 .budget.over-budget .stat-value {
     color: var(--danger);
+}
+
+.available-balance-box {
+    margin: 10px 0;
+    font-size: 0.9rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.available-balance-box .label {
+    color: var(--text-secondary);
+}
+
+.available-balance-box .value {
+    font-weight: 600;
+}
+
+.available-balance-box .text-success {
+    color: #10b981;
+}
+
+.available-balance-box .text-danger {
+    color: #ef4444;
 }
 
 .budget-progress-container {

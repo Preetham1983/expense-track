@@ -1,5 +1,6 @@
 import { formatDate } from '../utils/helpers';
 import { FiCheck, FiCheckCircle, FiX } from 'react-icons/fi';
+import NotificationToggle from './NotificationToggle';
 
 export default function NotificationPanel({ notifications, onMarkRead, onMarkAllRead, onClose }) {
     const getTypeIcon = (type) => {
@@ -33,6 +34,9 @@ export default function NotificationPanel({ notifications, onMarkRead, onMarkAll
                         <FiX />
                     </button>
                 </div>
+            </div>
+            <div className="notification-toggle-container">
+                <NotificationToggle />
             </div>
             <div className="notification-list">
                 {notifications.length === 0 ? (

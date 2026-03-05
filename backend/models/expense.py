@@ -21,6 +21,7 @@ class ExpenseCategory(str, Enum):
     ENTERTAINMENT = "entertainment"
     HEALTH = "health"
     EDUCATION = "education"
+    PETROL = "petrol"
     OTHER = "other"
 
 

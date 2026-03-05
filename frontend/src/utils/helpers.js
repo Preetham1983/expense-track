@@ -10,6 +10,7 @@ export const CATEGORIES = [
     { value: 'entertainment', label: 'Entertainment', icon: '🎬', color: '#673AB7' },
     { value: 'health', label: 'Health', icon: '🏥', color: '#00BCD4' },
     { value: 'education', label: 'Education', icon: '📚', color: '#3F51B5' },
+    { value: 'petrol', label: 'Petrol', icon: '⛽', color: '#FFEB3B' },
     { value: 'other', label: 'Other', icon: '📌', color: '#607D8B' },
 ];
 

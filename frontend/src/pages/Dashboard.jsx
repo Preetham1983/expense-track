@@ -115,6 +115,12 @@ export default function Dashboard() {
                         ) : user?.monthly_budget ? (
                             <>
                                 <div className="stat-value">{formatCurrency(user.monthly_budget)}</div>
+                                <div className="available-balance-box">
+                                    <span className="label">Available Balance:</span>
+                                    <span className={`value ${(user.monthly_budget - (summary?.total_spent || 0)) < 0 ? 'text-danger' : 'text-success'}`}>
+                                        {formatCurrency(user.monthly_budget - (summary?.total_spent || 0))}
+                                    </span>
+                                </div>
                                 <div className="budget-progress-container">
                                     <div
                                         className={`budget-progress-bar ${budgetUsage > 90 ? 'danger' : budgetUsage > 75 ? 'warning' : 'safe'}`}

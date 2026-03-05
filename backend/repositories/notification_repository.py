@@ -77,3 +77,12 @@ class NotificationRepository(BaseRepository):
             {"$set": {"is_read": True}},
         )
         return result.modified_count
+    
+    @classmethod
+    async def exists_by_metadata(cls, query: dict) -> bool:
+        """Check if a notification exists matching the query.
+        
+        Used to prevent duplicate reminders.
+        """
+        count = await cls.count(query)
+        return count > 0

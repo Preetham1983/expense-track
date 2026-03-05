@@ -38,6 +38,8 @@ class UserInDB(BaseModel):
     email: str
     hashed_password: str
     monthly_budget: Optional[float] = None
+    is_active: bool = True
+    push_subscriptions: list[dict] = []
     created_at: datetime = Field(default_factory=datetime.utcnow)
 
 

@@ -24,6 +24,21 @@ class EMIObserver(Observer):
         if event_type != "emi_due_soon":
             return
 
+        from repositories.user_repository import UserRepository
+        from services.push_service import PushService
+
+        # Fetch user's push subscriptions
+        user = await UserRepository.find_by_id(data["user_id"])
+        if user and user.get("push_subscriptions"):
+            push_data = {
+                "title": f"EMI Due: {data['emi_name']}",
+                "body": f"Your EMI '{data['emi_name']}' of ₹{data['amount']:,.2f} is due on day {data['due_date']}.",
+                "icon": "/logo192.png",
+                "tag": f"emi-{data['user_id']}-{data['emi_name']}"
+            }
+            for sub in user["push_subscriptions"]:
+                PushService.send_push(sub, push_data)
+
         notification = {
             "user_id": data["user_id"],
             "type": "emi_reminder",

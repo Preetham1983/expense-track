@@ -10,3 +10,4 @@ pydantic-settings==2.5.2
 slowapi==0.1.9
 python-multipart==0.0.9
 certifi==2024.8.30
+pywebpush==1.14.0
