@@ -16,6 +16,9 @@ class Settings(BaseSettings):
     jwt_algorithm: str = "HS256"
     jwt_expiration_minutes: int = 1440  # 24 hours
     frontend_url: str = "http://localhost:5173"
+    vapid_public_key: str = ""
+    vapid_private_key: str = ""
+    admin_email: str = "admin@example.com"
 
     class Config:
         env_file = ".env"

@@ -6,6 +6,7 @@ from typing import Optional
 from fastapi import APIRouter, Depends, Query
 
 from middleware.auth_middleware import get_current_user
+from pydantic import BaseModel
 from models.expense import ExpenseCreate, ExpenseResponse, ExpenseUpdate
 from services.expense_service import ExpenseService
 

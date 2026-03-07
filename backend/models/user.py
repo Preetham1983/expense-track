@@ -21,6 +21,15 @@ class UserLogin(BaseModel):
     password: str
 
 
+class UserUpdate(BaseModel):
+    """Schema for updating user profile."""
+
+    username: Optional[str] = Field(None, min_length=3, max_length=50)
+    monthly_income: Optional[float] = Field(None, gt=0)
+    current_password: Optional[str] = Field(None, min_length=6, max_length=128)
+    new_password: Optional[str] = Field(None, min_length=6, max_length=128)
+
+
 class UserResponse(BaseModel):
     """Schema for user data returned in API responses."""
 
@@ -28,6 +37,7 @@ class UserResponse(BaseModel):
     username: str
     email: str
     monthly_budget: Optional[float] = None
+    monthly_income: Optional[float] = None
     created_at: datetime
 
 
@@ -38,6 +48,7 @@ class UserInDB(BaseModel):
     email: str
     hashed_password: str
     monthly_budget: Optional[float] = None
+    monthly_income: Optional[float] = None
     is_active: bool = True
     push_subscriptions: list[dict] = []
     created_at: datetime = Field(default_factory=datetime.utcnow)

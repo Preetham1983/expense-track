@@ -1,12 +1,12 @@
 import json
-import os
 from pywebpush import webpush, WebPushException
 from typing import Any
+from config.settings import settings
 
-VAPID_PRIVATE_KEY = os.getenv("VAPID_PRIVATE_KEY")
-VAPID_PUBLIC_KEY = os.getenv("VAPID_PUBLIC_KEY")
+VAPID_PRIVATE_KEY = settings.vapid_private_key
+VAPID_PUBLIC_KEY = settings.vapid_public_key
 VAPID_CLAIMS = {
-    "sub": f"mailto:{os.getenv('ADMIN_EMAIL', 'admin@example.com')}"
+    "sub": f"mailto:{settings.admin_email}"
 }
 
 class PushService:

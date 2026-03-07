@@ -78,6 +78,8 @@ class ExpenseService:
             created_at=doc["created_at"],
         )
 
+        return await self.create_expense(user_id, expense_data)
+
     @staticmethod
     async def get_expenses(
         user_id: str,

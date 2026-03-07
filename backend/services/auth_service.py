@@ -42,6 +42,7 @@ class AuthService:
             "email": user_data.email,
             "hashed_password": hash_password(user_data.password),
             "monthly_budget": None,
+            "monthly_income": None,
             "created_at": datetime.utcnow(),
         }
 
@@ -52,6 +53,7 @@ class AuthService:
             username=user_data.username,
             email=user_data.email,
             monthly_budget=None,
+            monthly_income=None,
             created_at=user_doc["created_at"],
         )
 
@@ -93,6 +95,7 @@ class AuthService:
             username=user["username"],
             email=user["email"],
             monthly_budget=user.get("monthly_budget"),
+            monthly_income=user.get("monthly_income"),
             created_at=user["created_at"],
         )
 
@@ -129,6 +132,7 @@ class AuthService:
             username=user["username"],
             email=user["email"],
             monthly_budget=user.get("monthly_budget"),
+            monthly_income=user.get("monthly_income"),
             created_at=user["created_at"],
         )
 
@@ -144,4 +148,52 @@ class AuthService:
             Updated user response.
         """
         await UserRepository.update(user_id, {"monthly_budget": monthly_budget})
+        return await AuthService.get_current_user(user_id)
+
+    @staticmethod
+    async def update_user(user_id: str, update_data: 'UserUpdate') -> UserResponse:
+        """Update user profile (username, password).
+
+        Args:
+            user_id: The user's ID.
+            update_data: Fields to update.
+
+        Returns:
+            Updated user response.
+
+        Raises:
+            HTTPException: If current password verification fails or user not found.
+        """
+        user = await UserRepository.find_by_id(user_id)
+        if not user:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="User not found.",
+            )
+
+        update_dict = {}
+        if update_data.username:
+            update_dict["username"] = update_data.username
+        
+        if update_data.monthly_income is not None:
+            update_dict["monthly_income"] = update_data.monthly_income
+
+        if update_data.new_password:
+            if not update_data.current_password:
+                raise HTTPException(
+                    status_code=status.HTTP_400_BAD_REQUEST,
+                    detail="Current password is required to set a new password.",
+                )
+            
+            if not verify_password(update_data.current_password, user["hashed_password"]):
+                raise HTTPException(
+                    status_code=status.HTTP_401_UNAUTHORIZED,
+                    detail="Incorrect current password.",
+                )
+            
+            update_dict["hashed_password"] = hash_password(update_data.new_password)
+
+        if update_dict:
+            await UserRepository.update(user_id, update_dict)
+
         return await AuthService.get_current_user(user_id)
