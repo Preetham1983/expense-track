@@ -63,6 +63,16 @@ export default function Navbar() {
                         </Link>
                     ))}
 
+                    {/* Profile link for mobile */}
+                    <Link
+                        to="/profile"
+                        className={`nav-link mobile-profile-link ${location.pathname === '/profile' ? 'active' : ''}`}
+                        onClick={() => setMobileOpen(false)}
+                    >
+                        <span className="user-avatar-small">{user?.username?.[0]?.toUpperCase()}</span>
+                        <span>Profile</span>
+                    </Link>
+
                     <button className="nav-link logout-btn-mobile" onClick={handleLogout}>
                         <FiLogOut />
                         <span>Logout</span>
@@ -88,14 +98,16 @@ export default function Navbar() {
                         )}
                     </div>
 
-                    <Link to="/profile" className="user-info" style={{ textDecoration: 'none', color: 'inherit' }}>
-                        <span className="user-avatar">{user?.username?.[0]?.toUpperCase()}</span>
-                        <span className="user-name">{user?.username}</span>
-                    </Link>
+                    <div className="user-nav-group">
+                        <Link to="/profile" className="user-info" style={{ textDecoration: 'none', color: 'inherit' }}>
+                            <span className="user-avatar">{user?.username?.[0]?.toUpperCase()}</span>
+                            <span className="user-name">{user?.username}</span>
+                        </Link>
 
-                    <button className="logout-btn" onClick={handleLogout} title="Logout">
-                        <FiLogOut />
-                    </button>
+                        <button className="logout-btn" onClick={handleLogout} title="Logout">
+                            <FiLogOut />
+                        </button>
+                    </div>
                 </div>
 
                 {showNotifications && mobileOpen && (

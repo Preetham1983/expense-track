@@ -177,8 +177,8 @@ export default function Dashboard() {
                         <button className="btn-link" onClick={() => navigate('/expenses')}>View All</button>
                     </div>
                     <div className="expense-list compact">
-                        {expenses.slice(0, 5).length > 0 ? (
-                            expenses.slice(0, 5).map(exp => (
+                        {expenses.slice(0, 4).length > 0 ? (
+                            expenses.slice(0, 4).map(exp => (
                                 <ExpenseCard key={exp.id} expense={exp} onEdit={() => navigate('/expenses')} onDelete={() => { }} />
                             ))
                         ) : (
