@@ -39,9 +39,9 @@ export default function NotificationToggle() {
         try {
             const registration = await navigator.serviceWorker.ready;
 
-            // Check if VAPID key is available
-            const response = await fetch('/api/user/vapid-public-key'); // We need an endpoint for this or use env
-            const { publicKey } = await response.json();
+            // Fetch VAPID key
+            const res = await authAPI.getVapidKey();
+            const { publicKey } = res.data;
 
             const subscription = await registration.pushManager.subscribe({
                 userVisibleOnly: true,

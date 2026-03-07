@@ -5,7 +5,7 @@ import { useEMIs } from '../hooks/useEMIs';
 import { useExpenses } from '../hooks/useExpenses';
 import { expenseAPI, authAPI } from '../services/api';
 import { formatCurrency } from '../utils/helpers';
-import { CategoryPieChart, MonthlyBarChart } from '../components/Chart';
+import { CategoryPieChart, MonthlyBarChart, SpendingTrendChart, IncomeExpenseChart } from '../components/Chart';
 import EMICard from '../components/EMICard';
 import ExpenseCard from '../components/ExpenseCard';
 import Loader from '../components/Loader';
@@ -15,7 +15,7 @@ import toast from 'react-hot-toast';
 export default function Dashboard() {
     const { user, updateUser } = useAuth();
     const { upcoming, loading: emisLoading } = useEMIs();
-    const { expenses, loading: expensesLoading } = useExpenses();
+    const { expenses, loading: expensesLoading, fetchExpenses } = useExpenses();
     const navigate = useNavigate();
 
     const [summary, setSummary] = useState(null);
@@ -78,9 +78,11 @@ export default function Dashboard() {
 
     return (
         <div className="page-container dashboard">
-            <div className="page-header">
-                <h1>Welcome, {user?.username}! 👋</h1>
-                <p>Here's your financial overview for {summary?.month} {summary?.year}</p>
+            <div className="page-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div>
+                    <h1>Welcome, {user?.username}! 👋</h1>
+                    <p>Here's your financial overview for {summary?.month} {summary?.year}</p>
+                </div>
             </div>
 
             <div className="stats-grid">
@@ -154,10 +156,19 @@ export default function Dashboard() {
                     <CategoryPieChart data={summary?.category_breakdown || {}} />
                 </div>
                 <div className="chart-card">
-                    <h3>6-Month Spending Trend</h3>
-                    <MonthlyBarChart monthlyData={monthlyData} />
+                    <h3>Spending Trend</h3>
+                    <SpendingTrendChart monthlyData={monthlyData} />
                 </div>
             </div>
+
+            {user?.monthly_income > 0 && (
+                <div className="charts-grid mb-4" style={{ gridTemplateColumns: '1fr' }}>
+                    <div className="chart-card">
+                        <h3>Income vs Expense (This Month)</h3>
+                        <IncomeExpenseChart income={user.monthly_income} actualExpense={summary?.total_spent} />
+                    </div>
+                </div>
+            )}
 
             <div className="dashboard-lists-grid">
                 <div className="recent-list-section">
@@ -166,8 +177,8 @@ export default function Dashboard() {
                         <button className="btn-link" onClick={() => navigate('/expenses')}>View All</button>
                     </div>
                     <div className="expense-list compact">
-                        {expenses.slice(0, 4).length > 0 ? (
-                            expenses.slice(0, 4).map(exp => (
+                        {expenses.slice(0, 5).length > 0 ? (
+                            expenses.slice(0, 5).map(exp => (
                                 <ExpenseCard key={exp.id} expense={exp} onEdit={() => navigate('/expenses')} onDelete={() => { }} />
                             ))
                         ) : (

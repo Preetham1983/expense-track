@@ -13,6 +13,7 @@ import Dashboard from './pages/Dashboard';
 import Expenses from './pages/Expenses';
 import EMIs from './pages/EMIs';
 import HowItWorks from './pages/HowItWorks';
+import Profile from './pages/Profile';
 
 // Layout wrapper for protected routes
 const MainLayout = ({ children }) => (
@@ -56,6 +57,12 @@ function App() {
                     <Route path="/how-it-works" element={
                         <ProtectedRoute>
                             <MainLayout><HowItWorks /></MainLayout>
+                        </ProtectedRoute>
+                    } />
+
+                    <Route path="/profile" element={
+                        <ProtectedRoute>
+                            <MainLayout><Profile /></MainLayout>
                         </ProtectedRoute>
                     } />
                 </Routes>

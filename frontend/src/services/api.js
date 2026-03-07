@@ -40,7 +40,9 @@ export const authAPI = {
     login: (data) => api.post('auth/login', data),
     getProfile: () => api.get('user/me'),
     updateBudget: (monthly_budget) => api.put('user/budget', { monthly_budget }),
+    updateProfile: (data) => api.put('user/profile', data),
     subscribePush: (subscription) => api.post('user/subscribe', subscription),
+    getVapidKey: () => api.get('user/vapid-public-key'),
 };
 
 // --- Expense API ---

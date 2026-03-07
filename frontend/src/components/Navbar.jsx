@@ -88,10 +88,10 @@ export default function Navbar() {
                         )}
                     </div>
 
-                    <div className="user-info">
+                    <Link to="/profile" className="user-info" style={{ textDecoration: 'none', color: 'inherit' }}>
                         <span className="user-avatar">{user?.username?.[0]?.toUpperCase()}</span>
                         <span className="user-name">{user?.username}</span>
-                    </div>
+                    </Link>
 
                     <button className="logout-btn" onClick={handleLogout} title="Logout">
                         <FiLogOut />
